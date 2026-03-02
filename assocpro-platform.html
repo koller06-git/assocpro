@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>AssocPro — Plateforme UEMOA</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0d1117">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AssocPro">
+<style>
+:root{--bg:#0d1117;--sf:#161b22;--sf2:#1c2330;--bd:#30363d;--acc:#e8c96d;--ac2:#5fa8f5;--ac3:#7ee8a2;--red:#f87171;--pur:#c084fc;--org:#fb923c;--txt:#e6edf3;--mut:#8b949e;--r:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+/* SCREENS */
+.screen{display:none;min-height:100vh}
+.screen.on{display:block}
+.screen.flex{display:none}
+.screen.flex.on{display:flex}
+/* LANDING */
+.land-nav{position:fixed;top:0;left:0;right:0;padding:15px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,17,23,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);z-index:100}
+.logo{font-family:"Playfair Display",serif;font-size:22px;font-weight:700;color:var(--acc);cursor:pointer}
+.logo span{display:block;font-size:9px;color:var(--mut);font-family:"DM Sans",sans-serif;font-weight:400;letter-spacing:2px;text-transform:uppercase;margin-top:-2px}
+.hero-s{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:110px 20px 70px;background:radial-gradient(ellipse 80% 60% at 50% -5%,rgba(232,201,109,.1),transparent)}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:rgba(232,201,109,.1);border:1px solid rgba(232,201,109,.25);font-size:11px;font-weight:600;color:var(--acc);margin-bottom:22px;letter-spacing:1px}
+.hero-h{font-family:"Playfair Display",serif;font-size:clamp(34px,6vw,68px);font-weight:800;line-height:1.1;margin-bottom:20px}
+.hero-h .ac{color:var(--acc)}
+.hero-p{font-size:clamp(14px,2vw,18px);color:var(--mut);max-width:580px;margin:0 auto 38px;line-height:1.7}
+.hbtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+/* FEATURES */
+.section{padding:80px 40px;max-width:1100px;margin:0 auto}
+.sec-h{font-family:"Playfair Display",serif;font-size:34px;font-weight:700;text-align:center;margin-bottom:10px}
+.sec-s{text-align:center;color:var(--mut);margin-bottom:52px;font-size:14px;line-height:1.6}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat-c{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:26px;transition:all .25s}
+.feat-c:hover{transform:translateY(-4px);border-color:rgba(232,201,109,.3);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.feat-i{font-size:30px;margin-bottom:13px}
+.feat-n{font-size:15px;font-weight:700;margin-bottom:7px;font-family:"Playfair Display",serif}
+.feat-d{font-size:12px;color:var(--mut);line-height:1.65}
+/* STATS */
+.stats-s{padding:60px 40px;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:linear-gradient(135deg,var(--sf),var(--sf2))}
+.stats-g{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:900px;margin:0 auto;text-align:center}
+.stat-v{font-family:"Playfair Display",serif;font-size:38px;font-weight:700;color:var(--acc);line-height:1}
+.stat-l{font-size:12px;color:var(--mut);margin-top:6px}
+/* PAYS */
+.pays-s{padding:60px 40px;text-align:center}
+.pays-g{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+.pays-t{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:10px 18px;font-size:13px;font-weight:500;transition:all .2s;cursor:default}
+.pays-t:hover{border-color:var(--acc);color:var(--acc)}
+/* HOW */
+.how-g{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative}
+.how-g::before{content:"";position:absolute;top:28px;left:12%;right:12%;height:2px;background:linear-gradient(90deg,var(--acc),var(--ac2));z-index:0}
+.step{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px 18px;text-align:center;position:relative;z-index:1;transition:transform .2s}
+.step:hover{transform:translateY(-3px)}
+.step-n{width:40px;height:40px;border-radius:50%;background:var(--acc);color:#000;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.step-t{font-size:13px;font-weight:700;margin-bottom:6px}
+.step-d{font-size:11px;color:var(--mut);line-height:1.5}
+/* CTA */
+.cta-s{padding:80px 40px;text-align:center}
+.cta-b{background:linear-gradient(135deg,rgba(232,201,109,.08),rgba(126,232,162,.05));border:1px solid rgba(232,201,109,.25);border-radius:28px;padding:60px 50px;max-width:750px;margin:0 auto}
+.cta-h{font-family:"Playfair Display",serif;font-size:32px;font-weight:700;margin-bottom:14px}
+.cta-p{color:var(--mut);margin-bottom:34px;font-size:15px;line-height:1.7}
+/* FOOTER */
+.footer{padding:30px 40px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--mut)}
+/* BUTTONS */
+.btn{padding:7px 16px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:"DM Sans",sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.bp{background:var(--acc);color:#000}.bp:hover{opacity:.88;transform:translateY(-1px)}
+.bg2{background:transparent;border:1px solid var(--bd);color:var(--txt)}.bg2:hover{background:var(--sf2)}
+.brd{background:rgba(248,113,113,.15);border:1px solid var(--red);color:var(--red)}
+.bgs{background:rgba(126,232,162,.15);border:1px solid var(--ac3);color:var(--ac3)}
+.bgi{background:rgba(95,168,245,.15);border:1px solid var(--ac2);color:var(--ac2)}
+.sm{padding:5px 11px;font-size:11px}
+.lg{padding:13px 32px;font-size:15px;border-radius:12px}
+/* AUTH */
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(232,201,109,.07),transparent)}
+.auth-box{background:var(--sf);border:1px solid var(--bd);border-radius:22px;padding:40px 38px;width:500px;max-width:95vw;animation:fi .35s ease}
+.auth-logo{font-family:"Playfair Display",serif;font-size:24px;font-weight:700;color:var(--acc);margin-bottom:3px}
+.auth-sub{font-size:10px;color:var(--mut);letter-spacing:2px;text-transform:uppercase;margin-bottom:26px}
+.auth-title{font-family:"Playfair Display",serif;font-size:17px;font-weight:600;margin-bottom:20px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.ff{grid-column:1/-1}
+.fg label{display:block;font-size:10px;font-weight:700;color:var(--mut);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px 13px;color:var(--txt);font-family:"DM Sans",sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(232,201,109,.1)}
+select option{background:var(--sf)}
+.auth-err{font-size:12px;color:var(--red);text-align:center;display:none;margin-top:8px;padding:9px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px}
+.auth-link{font-size:12px;color:var(--mut);text-align:center;margin-top:14px}
+.auth-link a{color:var(--acc);cursor:pointer;font-weight:600}
+.info-box{background:rgba(232,201,109,.06);border:1px solid rgba(232,201,109,.18);border-radius:10px;padding:11px 14px;font-size:12px;color:var(--mut);grid-column:1/-1}
+.info-box strong{color:var(--acc)}
+/* PICK ASSO */
+.pick-grid{display:grid;gap:10px;margin-bottom:20px;max-height:360px;overflow-y:auto}
+.pick-c{background:var(--sf2);border:2px solid var(--bd);border-radius:13px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:13px}
+.pick-c:hover{border-color:var(--acc);background:rgba(232,201,109,.06)}
+.pick-ico{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:#000;flex-shrink:0}
+.pick-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.pick-meta{font-size:11px;color:var(--mut)}
+/* APP */
+#app{display:none;width:100%;min-height:100vh;flex-direction:row}
+#app.on{display:flex}
+.sb{width:265px;min-height:100vh;background:var(--sf);border-right:1px solid var(--bd);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+.sbl{padding:18px 16px 12px;border-bottom:1px solid var(--bd)}
+.sbt{font-family:"Playfair Display",serif;font-size:16px;font-weight:700;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbsub{font-size:9px;color:var(--mut);letter-spacing:2px;text-transform:uppercase;margin-top:1px}
+.rind{margin-top:7px;display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700}
+.nav{padding:10px 8px;flex:1;overflow-y:auto}
+.ns{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mut);padding:7px 11px 4px;margin-top:7px}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;cursor:pointer;transition:all .2s;font-size:13px;font-weight:500;color:var(--mut);margin-bottom:2px}
+.ni:hover{background:var(--sf2);color:var(--txt)}
+.ni.active{background:rgba(232,201,109,.12);color:var(--acc)}
+.ni .ic{font-size:15px;width:18px;text-align:center}
+.bc{margin-left:auto;background:var(--acc);color:#000;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px}
+.sbf{padding:11px 14px;border-top:1px solid var(--bd)}
+.uc{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;flex-shrink:0}
+.unm{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.url2{font-size:10px;color:var(--mut)}
+.lob{background:none;border:1px solid var(--bd);color:var(--mut);border-radius:8px;padding:6px 12px;font-size:11px;cursor:pointer;width:100%;font-family:"DM Sans",sans-serif;transition:all .2s;text-align:left;margin-bottom:5px}
+.lob:hover{border-color:var(--red);color:var(--red)}
+.lob2:hover{border-color:var(--ac2);color:var(--ac2)}
+.main{margin-left:265px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:14px 28px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--sf);position:sticky;top:0;z-index:50}
+.tbt{font-family:"Playfair Display",serif;font-size:18px;font-weight:600}
+.tba{display:flex;gap:7px;align-items:center}
+.nbell{position:relative;cursor:pointer;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:7px 11px;font-size:15px;transition:all .2s}
+.ndot{position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--red);border-radius:50%;display:none}
+.ndot.on{display:block}
+.uflag{display:flex;gap:5px;align-items:center;padding:5px 10px;background:rgba(232,201,109,.08);border:1px solid rgba(232,201,109,.2);border-radius:8px;font-size:10px;color:var(--acc)}
+.ct{padding:24px 28px;flex:1}
+.pg{display:none;animation:fi .3s ease}
+.pg.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+/* STATS CARDS */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:20px}
+.sg3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:20px}
+.sc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:17px 19px;position:relative;overflow:hidden;transition:transform .2s}
+.sc:hover{transform:translateY(-2px)}
+.sc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.sc.c1::before{background:var(--acc)}.sc.c2::before{background:var(--ac2)}.sc.c3::before{background:var(--ac3)}.sc.c4::before{background:var(--red)}
+.sico{font-size:21px;margin-bottom:8px}
+.sval{font-size:19px;font-weight:700;font-family:"Playfair Display",serif;line-height:1;margin-bottom:3px;word-break:break-word}
+.slbl{font-size:11px;color:var(--mut);font-weight:500}
+/* CARDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.ch{padding:12px 17px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.ctitle{font-family:"Playfair Display",serif;font-size:13px;font-weight:600}
+.cb{padding:15px 17px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.stitle{font-family:"Playfair Display",serif;font-size:20px;font-weight:600}
+.ssub{font-size:12px;color:var(--mut);margin-top:2px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{text-align:left;padding:9px 12px;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mut);border-bottom:1px solid var(--bd);font-weight:600}
+tbody tr{border-bottom:1px solid rgba(48,54,61,.5);transition:background .15s}
+tbody tr:hover{background:var(--sf2)}
+tbody tr:last-child{border-bottom:none}
+tbody td{padding:10px 12px;vertical-align:middle}
+.mc{display:flex;align-items:center;gap:8px}
+.avs{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.acell{display:flex;gap:4px;flex-wrap:wrap}
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.bdg::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.ok{background:rgba(126,232,162,.15);color:var(--ac3)}.ko{background:rgba(248,113,113,.12);color:var(--red)}.wt{background:rgba(232,201,109,.15);color:var(--acc)}.inf2{background:rgba(95,168,245,.15);color:var(--ac2)}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;background:rgba(95,168,245,.15);color:var(--ac2)}
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.mo.open{display:flex}
+.md{background:var(--sf);border:1px solid var(--bd);border-radius:18px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;animation:mi .25s ease}
+@keyframes mi{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+.mh{padding:16px 20px 12px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.mt2{font-family:"Playfair Display",serif;font-size:16px;font-weight:600}
+.xb{background:none;border:none;color:var(--mut);font-size:20px;cursor:pointer;line-height:1}.xb:hover{color:var(--txt)}
+.mbody{padding:16px 20px}
+.mfoot{padding:12px 20px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:8px}
+/* NOTIF */
+.np{position:fixed;top:0;right:-380px;width:370px;height:100vh;background:var(--sf);border-left:1px solid var(--bd);z-index:300;transition:right .3s ease;display:flex;flex-direction:column}
+.np.open{right:0}
+.nph{padding:16px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.nl{flex:1;overflow-y:auto;padding:12px}
+.nitem{background:var(--sf2);border:1px solid var(--bd);border-radius:9px;padding:11px 13px;margin-bottom:8px;border-left:4px solid var(--bd)}
+.nitem.danger{border-left-color:var(--red)}.nitem.warning{border-left-color:var(--org)}.nitem.info{border-left-color:var(--ac2)}.nitem.success{border-left-color:var(--ac3)}
+/* MISC */
+.al{list-style:none}
+.ai{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(48,54,61,.5);align-items:flex-start}
+.ai:last-child{border-bottom:none}
+.adot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.eitem{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(48,54,61,.5);align-items:center}
+.eitem:last-child{border-bottom:none}
+.edate{background:var(--sf2);border:1px solid var(--bd);border-radius:9px;padding:7px 10px;text-align:center;min-width:44px}
+.eday{font-size:17px;font-weight:700;font-family:"Playfair Display",serif;color:var(--acc);line-height:1}
+.emon{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--mut);margin-top:1px}
+.pb{height:5px;background:var(--bd);border-radius:3px;overflow:hidden;margin-top:5px}
+.pf{height:100%;border-radius:3px;transition:width .6s ease}
+.hero2{background:linear-gradient(135deg,var(--sf2),rgba(232,201,109,.06));border:1px solid var(--bd);border-radius:16px;padding:22px 26px;margin-bottom:20px;display:flex;align-items:center;gap:18px}
+.dg{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.dv{height:1px;background:var(--bd);margin:12px 0}
+.apos{color:var(--ac3);font-weight:700}.aneg{color:var(--red);font-weight:700}
+.srb{display:flex;gap:6px;flex-wrap:wrap}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--sf);border-left:4px solid var(--acc);border-radius:11px;padding:12px 17px;font-size:12px;font-weight:500;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:fi .3s ease;display:flex;align-items:center;gap:9px;max-width:340px}
+.toast.danger{border-left-color:var(--red)}.toast.warning{border-left-color:var(--org)}.toast.success{border-left-color:var(--ac3)}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+@media print{.sb,.topbar,.np,.noprint{display:none!important}.main{margin-left:0}}
+/* MOBILE */
+@media(max-width:768px){
+  .land-nav{padding:12px 18px}
+  .hero-s{padding:90px 16px 60px}
+  .section{padding:50px 16px}
+  .feat-grid{grid-template-columns:1fr}
+  .stats-g{grid-template-columns:repeat(2,1fr)}
+  .how-g{grid-template-columns:1fr 1fr}.how-g::before{display:none}
+  .cta-s{padding:50px 16px}.cta-b{padding:30px 22px}
+  .footer{flex-direction:column;gap:8px;text-align:center;padding:20px}
+  .sb{width:100%;height:62px;min-height:unset;flex-direction:row;position:fixed;top:auto;bottom:0;border-right:none;border-top:1px solid var(--bd)}
+  .sbl,.sbf{display:none}
+  .nav{display:flex;flex-direction:row;padding:0;overflow-x:auto;align-items:center;justify-content:space-around;height:62px}
+  .ns{display:none}
+  .ni{flex-direction:column;gap:2px;padding:8px 6px;border-radius:8px;font-size:9px;min-width:54px;align-items:center;margin:0;height:100%;justify-content:center}
+  .ni .ic{font-size:19px;width:auto}
+  .bc{display:none}
+  .main{margin-left:0;margin-bottom:62px}
+  .topbar{padding:11px 16px}
+  .ct{padding:14px 13px}
+  .sg,.sg3{grid-template-columns:repeat(2,1fr);gap:9px}
+  .g2{grid-template-columns:1fr}
+  .dg{grid-template-columns:1fr 1fr}
+  .md{width:96vw;max-height:88vh;border-radius:20px 20px 0 0;position:fixed;bottom:0;left:0;right:0;margin:0}
+  .mo.open{align-items:flex-end}
+  .np{width:100vw;right:-100vw;top:auto;bottom:0;height:80vh;border-radius:20px 20px 0 0}
+  .np.open{right:0}
+  input,select,textarea{font-size:16px!important}
+  .uflag{display:none}
+}
+@media(min-width:769px){input,select,textarea{font-size:12px!important}}
+button,.ni,.pick-c,.pays-t{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<!-- ===== LANDING PAGE ===== -->
+<div id="s-land" class="screen on">
+ <nav class="land-nav">
+  <div class="logo" onclick="showS('land')">AssocPro<span>UEMOA · Zone Franc CFA</span></div>
+  <div style="display:flex;gap:10px">
+   <button class="btn bg2" onclick="showS('login')">Se connecter</button>
+   <button class="btn bp" onclick="showS('signup')">Créer mon association</button>
+  </div>
+ </nav>
+
+ <!-- HERO -->
+ <div class="hero-s">
+  <div>
+   <div class="badge">🌍 Plateforme officielle Zone UEMOA</div>
+   <h1 class="hero-h">Gérez votre association<br>avec <span class="ac">AssocPro</span></h1>
+   <p class="hero-p">La plateforme complète pour les associations de la zone UEMOA. Membres, cotisations, finances, événements — tout en un, depuis votre téléphone ou ordinateur.</p>
+   <div class="hbtns">
+    <button class="btn bp lg" onclick="showS('signup')">🚀 Créer mon association — Gratuit</button>
+    <button class="btn bg2 lg" onclick="showS('login')">Se connecter →</button>
+   </div>
+  </div>
+ </div>
+
+ <!-- FEATURES -->
+ <div class="section">
+  <div class="sec-h">Tout ce dont votre association a besoin</div>
+  <div class="sec-s">Conçu pour les réalités des associations africaines en zone UEMOA.<br>Simple, rapide, accessible sur mobile.</div>
+  <div class="feat-grid">
+   <div class="feat-c"><div class="feat-i">👥</div><div class="feat-n">Gestion des membres</div><div class="feat-d">Annuaire complet, rôles personnalisés, identifiants de connexion individuels pour chaque membre. Accès sécurisé à son espace personnel.</div></div>
+   <div class="feat-c"><div class="feat-i">💰</div><div class="feat-n">Finances en FCFA</div><div class="feat-d">Recettes, dépenses, cotisations, solde en temps réel. Mensualité, adhésion, décès, mariage, naissance, maladie, cas exceptionnels.</div></div>
+   <div class="feat-c"><div class="feat-i">📅</div><div class="feat-n">Calendrier &amp; Événements</div><div class="feat-d">AG, réunions, formations. Alertes automatiques avant chaque événement. Vue calendrier par mois.</div></div>
+   <div class="feat-c"><div class="feat-i">🧾</div><div class="feat-n">Reçus &amp; Rapports PDF</div><div class="feat-d">Générez des reçus de cotisation, rapports financiers, rapports d'audit et fiches de l'association en un clic.</div></div>
+   <div class="feat-c"><div class="feat-i">🔍</div><div class="feat-n">Espace Commissaire</div><div class="feat-d">Vue audit dédiée, liste de contrôle de conformité, historique des rapports d'audit signés.</div></div>
+   <div class="feat-c"><div class="feat-i">📱</div><div class="feat-n">Application mobile PWA</div><div class="feat-d">Installez sur Android et iOS comme une vraie app. Fonctionne hors ligne. Aucun store requis.</div></div>
+   <div class="feat-c"><div class="feat-i">🔐</div><div class="feat-n">Espaces isolés</div><div class="feat-d">Chaque association a son espace totalement privé. Vos données ne sont jamais partagées avec d'autres associations.</div></div>
+   <div class="feat-c"><div class="feat-i">💾</div><div class="feat-n">Sauvegarde &amp; Export</div><div class="feat-d">Export JSON complet, import de sauvegarde, réinitialisation. Vos données vous appartiennent.</div></div>
+   <div class="feat-c"><div class="feat-i">🌍</div><div class="feat-n">8 pays couverts</div><div class="feat-d">Adapté pour Côte d'Ivoire, Sénégal, Mali, Burkina Faso, Niger, Bénin, Togo et Guinée-Bissau.</div></div>
+  </div>
+ </div>
+
+ <!-- STATS -->
+ <div class="stats-s">
+  <div class="stats-g">
+   <div><div class="stat-v" id="ctr-a">—</div><div class="stat-l">Associations inscrites</div></div>
+   <div><div class="stat-v">8</div><div class="stat-l">Pays UEMOA</div></div>
+   <div><div class="stat-v">100%</div><div class="stat-l">Gratuit à vie</div></div>
+   <div><div class="stat-v">0</div><div class="stat-l">Publicité</div></div>
+  </div>
+ </div>
+
+ <!-- PAYS -->
+ <div class="pays-s">
+  <div class="sec-h">Disponible dans toute la zone UEMOA</div>
+  <div class="pays-g">
+   <div class="pays-t">🇨🇮 Côte d'Ivoire</div><div class="pays-t">🇸🇳 Sénégal</div>
+   <div class="pays-t">🇲🇱 Mali</div><div class="pays-t">🇧🇫 Burkina Faso</div>
+   <div class="pays-t">🇳🇪 Niger</div><div class="pays-t">🇧🇯 Bénin</div>
+   <div class="pays-t">🇹🇬 Togo</div><div class="pays-t">🇬🇼 Guinée-Bissau</div>
+  </div>
+ </div>
+
+ <!-- HOW IT WORKS -->
+ <div class="section">
+  <div class="sec-h">En 4 étapes</div>
+  <div class="sec-s" style="margin-bottom:40px">Créez votre association en moins de 2 minutes</div>
+  <div class="how-g">
+   <div class="step"><div class="step-n">1</div><div class="step-t">Créez votre espace</div><div class="step-d">Remplissez le formulaire d'inscription avec le nom de votre association et vos coordonnées.</div></div>
+   <div class="step"><div class="step-n">2</div><div class="step-t">Ajoutez vos membres</div><div class="step-d">Créez les profils de chaque membre avec leur identifiant et mot de passe personnels.</div></div>
+   <div class="step"><div class="step-n">3</div><div class="step-t">Gérez vos finances</div><div class="step-d">Enregistrez cotisations, recettes et dépenses. Générez vos reçus et rapports PDF.</div></div>
+   <div class="step"><div class="step-n">4</div><div class="step-t">Installez l'app</div><div class="step-d">Ajoutez l'app sur l'écran d'accueil de votre téléphone et utilisez-la hors ligne.</div></div>
+  </div>
+ </div>
+
+ <!-- CTA -->
+ <div class="cta-s">
+  <div class="cta-b">
+   <div class="cta-h">Prêt à moderniser votre association ?</div>
+   <p class="cta-p">Inscription en 2 minutes. Aucune carte bancaire. Aucun engagement. Vos données restent privées sur votre appareil.</p>
+   <button class="btn bp lg" onclick="showS('signup')">Créer mon espace association →</button>
+  </div>
+ </div>
+
+ <div class="footer">
+  <span>© 2025 AssocPro UEMOA</span>
+  <span style="text-align:center">Plateforme de gestion associative · Zone Franc CFA</span>
+  <span>Gratuit · Privé · Hors ligne</span>
+ </div>
+</div>
+
+<!-- ===== INSCRIPTION ===== -->
+<div id="s-signup" class="screen" style="background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(232,201,109,.07),transparent)">
+ <div class="auth-wrap">
+  <div class="auth-box">
+   <div class="auth-logo">AssocPro</div>
+   <div class="auth-sub">Créer votre espace association</div>
+   <div class="fg">
+    <div class="info-box">✨ Votre espace est <strong>totalement isolé</strong> — vos données ne sont jamais partagées avec d'autres associations. Stockage local sécurisé.</div>
+    <div class="ff"><label>Nom de l'association *</label><input type="text" id="s-nom" placeholder="Ex : Tontine des Femmes de Cocody"></div>
+    <div><label>Pays UEMOA *</label>
+     <select id="s-pays">
+      <option value="CI">🇨🇮 Côte d'Ivoire</option><option value="SN">🇸🇳 Sénégal</option>
+      <option value="ML">🇲🇱 Mali</option><option value="BF">🇧🇫 Burkina Faso</option>
+      <option value="NE">🇳🇪 Niger</option><option value="BJ">🇧🇯 Bénin</option>
+      <option value="TG">🇹🇬 Togo</option><option value="GW">🇬🇼 Guinée-Bissau</option>
+     </select>
+    </div>
+    <div><label>Email admin *</label><input type="email" id="s-email" placeholder="admin@monasso.org"></div>
+    <div><label>Cotisation annuelle (FCFA)</label><input type="number" id="s-cot" value="10000" min="0"></div>
+    <div class="ff" style="background:rgba(95,168,245,.06);border:1px solid rgba(95,168,245,.2);border-radius:10px;padding:13px 15px">
+     <div style="font-size:11px;font-weight:700;color:var(--ac2);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Identifiants administrateur</div>
+     <div class="fg" style="gap:9px">
+      <div><label>Identifiant *</label><input type="text" id="s-login" placeholder="admin_tontine" oninput="this.value=this.value.toLowerCase().replace(/\s/g,'')"></div>
+      <div><label>Mot de passe *</label><input type="password" id="s-pwd" placeholder="Min. 6 caractères"></div>
+     </div>
+    </div>
+    <div class="ff"><button class="btn bp" style="width:100%;padding:12px;font-size:13px;margin-top:6px" onclick="doSignup()">🚀 Créer mon association →</button></div>
+    <div class="auth-err" id="s-err"></div>
+    <div class="auth-link">Déjà inscrit ? <a onclick="showS('login')">Se connecter</a> &nbsp;·&nbsp; <a onclick="showS('land')">← Retour</a></div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ===== CONNEXION ===== -->
+<div id="s-login" class="screen" style="background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(95,168,245,.06),transparent)">
+ <div class="auth-wrap">
+  <div class="auth-box">
+   <div class="auth-logo">AssocPro</div>
+   <div class="auth-sub">Connexion à votre espace</div>
+   <div class="fg">
+    <div class="ff"><label>Identifiant *</label><input type="text" id="l-login" placeholder="Votre identifiant" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="ff"><label>Mot de passe *</label><input type="password" id="l-pwd" placeholder="Votre mot de passe" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="ff"><button class="btn bp" style="width:100%;padding:12px;font-size:13px;margin-top:6px" onclick="doLogin()">Se connecter →</button></div>
+    <div class="auth-err" id="l-err"></div>
+    <div class="auth-link">Pas encore inscrit ? <a onclick="showS('signup')">Créer mon association</a> &nbsp;·&nbsp; <a onclick="showS('land')">← Retour</a></div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ===== CHOIX ASSOCIATION ===== -->
+<div id="s-pick" class="screen">
+ <div class="auth-wrap">
+  <div class="auth-box">
+   <div class="auth-logo">AssocPro</div>
+   <div class="auth-sub">Choisir un espace</div>
+   <p style="font-size:13px;color:var(--mut);margin-bottom:16px">Plusieurs associations trouvées. Sélectionnez votre espace :</p>
+   <div class="pick-grid" id="pick-list"></div>
+   <div class="auth-link"><a onclick="showS('login')">← Retour à la connexion</a></div>
+  </div>
+ </div>
+</div>
+<!-- ===== NOTIF PANEL ===== -->
+<div class="np" id="np">
+ <div class="nph">
+  <span style="font-family:'Playfair Display',serif;font-size:14px;font-weight:600">🔔 Notifications</span>
+  <div style="display:flex;gap:7px"><button class="btn bg2 sm" onclick="clearN()">Effacer</button><button class="xb" onclick="toggleN()">×</button></div>
+ </div>
+ <div class="nl" id="nl"></div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+ <aside class="sb">
+  <div class="sbl">
+   <div class="sbt" id="sb-nom">AssocPro</div>
+   <div class="sbsub">UEMOA · XOF (FCFA)</div>
+   <div class="rind" id="rind"></div>
+  </div>
+  <nav class="nav" id="nav"></nav>
+  <div class="sbf">
+   <div class="uc">
+    <div class="av" id="sav">U</div>
+    <div style="overflow:hidden"><div class="unm" id="snm">—</div><div class="url2" id="srl">—</div></div>
+   </div>
+   <button class="lob" style="margin-bottom:5px;border-color:var(--bd)" onclick="switchAsso()">🔄 Changer d'association</button>
+   <button class="lob" onclick="doLogout()">⏻ Déconnexion</button>
+  </div>
+ </aside>
+ <main class="main">
+  <div class="topbar">
+   <div class="tbt" id="ptitle">Tableau de bord</div>
+   <div class="tba">
+    <div class="uflag noprint">🌍 <span id="pyl">UEMOA</span></div>
+    <button class="nbell noprint" onclick="toggleN()">🔔<div class="ndot" id="ndot"></div></button>
+    <button class="btn bg2 sm noprint" onclick="window.print()">🖨️</button>
+   </div>
+  </div>
+  <div class="ct">
+
+   <!-- DASHBOARD GESTIONNAIRE -->
+   <div class="pg" id="page-g-dash">
+    <div class="sg">
+     <div class="sc c1"><div class="sico">👥</div><div class="sval" id="gs1">0</div><div class="slbl">Membres actifs</div></div>
+     <div class="sc c2"><div class="sico">📅</div><div class="sval" id="gs2">0</div><div class="slbl">Événements à venir</div></div>
+     <div class="sc c3"><div class="sico">🏦</div><div class="sval" id="gs3">0 FCFA</div><div class="slbl">Solde trésorerie</div></div>
+     <div class="sc c4"><div class="sico">⚠️</div><div class="sval" id="gs4">0</div><div class="slbl">Cotisations en retard</div></div>
+    </div>
+    <div class="g2">
+     <div class="card"><div class="ch"><span class="ctitle">Activité récente</span></div><div class="cb"><ul class="al" id="gal"></ul></div></div>
+     <div class="card"><div class="ch"><span class="ctitle">Prochains événements</span><button class="btn bg2 sm" onclick="gp('g-evts')">Voir tout</button></div><div class="cb" id="gde"></div></div>
+    </div>
+    <div class="card"><div class="ch"><span class="ctitle">Aperçu budgétaire (FCFA)</span></div>
+     <div class="cb"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <div><div style="font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Recettes</div><div style="font-size:17px;font-weight:700;color:var(--ac3);font-family:'Playfair Display',serif" id="gdr">0 FCFA</div><div class="pb"><div class="pf" style="background:var(--ac3)" id="gprr"></div></div></div>
+      <div><div style="font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Dépenses</div><div style="font-size:17px;font-weight:700;color:var(--red);font-family:'Playfair Display',serif" id="gdd">0 FCFA</div><div class="pb"><div class="pf" style="background:var(--red)" id="gprd"></div></div></div>
+      <div><div style="font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Objectif annuel</div><div style="font-size:17px;font-weight:700;color:var(--acc);font-family:'Playfair Display',serif">500 000 FCFA</div></div>
+     </div></div>
+    </div>
+   </div>
+
+   <!-- MEMBRES -->
+   <div class="pg" id="page-g-membres">
+    <div class="sh">
+     <div><div class="stitle">Membres</div><div class="ssub" id="gmc">0 membre(s)</div></div>
+     <div class="srb"><button class="btn bg2 noprint" onclick="xpdf('membres')">📄 PDF</button><button class="btn bp noprint" onclick="om('addm')">+ Nouveau membre</button></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:7px 12px;margin-bottom:13px" class="noprint">
+     <span>🔍</span><input type="text" placeholder="Rechercher..." oninput="filtM(this.value)" style="background:none;border:none;outline:none;color:var(--txt);width:100%">
+    </div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Membre</th><th>Email</th><th>Rôle</th><th>Identifiant</th><th>Mot de passe</th><th>Cotisation</th><th class="noprint">Actions</th></tr></thead><tbody id="mtb"></tbody></table></div></div>
+   </div>
+
+   <!-- EVENEMENTS -->
+   <div class="pg" id="page-g-evts">
+    <div class="sh">
+     <div><div class="stitle">Événements</div></div>
+     <div class="srb"><button class="btn bg2 noprint" onclick="xpdf('evenements')">📄 PDF</button><button class="btn bp noprint" onclick="om('adde')">+ Événement</button></div>
+    </div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Titre</th><th>Date</th><th>Heure</th><th>Lieu</th><th>Type</th><th class="noprint">Actions</th></tr></thead><tbody id="etb"></tbody></table></div></div>
+   </div>
+
+   <!-- FINANCES -->
+   <div class="pg" id="page-g-finances">
+    <div class="sh">
+     <div><div class="stitle">Finances</div><div class="ssub">XOF — Franc CFA UEMOA</div></div>
+     <div class="srb"><button class="btn bg2 noprint" onclick="xpdf('finances')">📄 PDF</button><button class="btn bp noprint" onclick="om('addf')">+ Transaction</button></div>
+    </div>
+    <div class="sg">
+     <div class="sc c3"><div class="sico">💹</div><div class="sval" id="gfr">0 FCFA</div><div class="slbl">Recettes</div></div>
+     <div class="sc c4"><div class="sico">📉</div><div class="sval" id="gfd">0 FCFA</div><div class="slbl">Dépenses</div></div>
+     <div class="sc c1"><div class="sico">🏦</div><div class="sval" id="gfs">0 FCFA</div><div class="slbl">Solde net</div></div>
+     <div class="sc c2"><div class="sico">📊</div><div class="sval" id="gfn">0</div><div class="slbl">Transactions</div></div>
+    </div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Date</th><th>Description</th><th>Catégorie</th><th>Type</th><th>Montant (FCFA)</th><th class="noprint">Actions</th></tr></thead><tbody id="ftb"></tbody></table></div></div>
+   </div>
+
+   <!-- DOCUMENTS -->
+   <div class="pg" id="page-g-docs">
+    <div class="sh"><div><div class="stitle">Documents</div></div><button class="btn bp noprint" onclick="om('addd')">+ Ajouter</button></div>
+    <div class="dg" id="dg"></div>
+   </div>
+
+   <!-- PARAMETRES -->
+   <div class="pg" id="page-g-params">
+    <div class="stitle" style="margin-bottom:18px">Paramètres de l'association</div>
+    <div class="card" style="max-width:600px;margin-bottom:15px">
+     <div class="ch"><span class="ctitle">Informations</span></div>
+     <div class="cb"><div class="fg">
+      <div class="ff"><label>Nom de l'association</label><input type="text" id="pnom" oninput="svP()"></div>
+      <div><label>RCCM / RNA</label><input type="text" id="prccm" oninput="svP()"></div>
+      <div><label>Date de création</label><input type="date" id="pdate" oninput="svP()"></div>
+      <div><label>Email</label><input type="email" id="pemail" oninput="svP()"></div>
+      <div><label>Téléphone</label><input type="tel" id="ptel" oninput="svP()"></div>
+      <div class="ff"><label>Adresse</label><input type="text" id="padr" oninput="svP()"></div>
+      <div><label>Cotisation annuelle (FCFA)</label><input type="number" id="pcot" oninput="svP()"></div>
+      <div><label>Pays UEMOA</label>
+       <select id="ppays" onchange="chgPays()">
+        <option value="CI">🇨🇮 Côte d'Ivoire</option><option value="SN">🇸🇳 Sénégal</option>
+        <option value="ML">🇲🇱 Mali</option><option value="BF">🇧🇫 Burkina Faso</option>
+        <option value="NE">🇳🇪 Niger</option><option value="BJ">🇧🇯 Bénin</option>
+        <option value="TG">🇹🇬 Togo</option><option value="GW">🇬🇼 Guinée-Bissau</option>
+       </select>
+      </div>
+     </div>
+     <div style="margin-top:13px;display:flex;gap:8px">
+      <button class="btn bp" onclick="svP();showT('Sauvegardé ✓','success')">💾 Sauvegarder</button>
+      <button class="btn bg2" onclick="xpdf('fiche')">📄 Fiche PDF</button>
+     </div></div>
+    </div>
+    <div class="card" style="max-width:600px">
+     <div class="ch"><span class="ctitle">💾 Données</span></div>
+     <div class="cb">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+       <button class="btn bgs" onclick="xJson()">⬇️ Exporter JSON</button>
+       <button class="btn bgi" onclick="document.getElementById('ifile').click()">⬆️ Importer JSON</button>
+       <input type="file" id="ifile" accept=".json" style="display:none" onchange="iJson(this)">
+       <button class="btn brd" onclick="resetData()">🗑 Réinitialiser</button>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--mut)" id="lsi">—</div>
+     </div>
+    </div>
+   </div>
+
+   <!-- ESPACE MEMBRE -->
+   <div class="pg" id="page-m-profil">
+    <div class="hero2"><div style="font-size:42px">👤</div><div><div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;margin-bottom:3px">Mon Espace Membre</div><div style="font-size:12px;color:var(--mut)">Profil, cotisations et événements.</div></div></div>
+    <div class="g2">
+     <div class="card">
+      <div class="ch"><span class="ctitle">Mon profil</span><button class="btn bg2 sm noprint" onclick="xpdf('recu')">🧾 Reçu</button></div>
+      <div class="cb">
+       <div style="display:flex;align-items:center;gap:13px;margin-bottom:14px">
+        <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#7ee8a2,#5fa8f5);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#000" id="mav">M</div>
+        <div><div style="font-size:16px;font-weight:700;font-family:'Playfair Display',serif" id="mnd">—</div><div style="font-size:11px;color:var(--mut)" id="mrd">Membre</div></div>
+       </div>
+       <div style="font-size:12px;display:grid;gap:8px">
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Email</span><span id="med2">—</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Téléphone</span><span id="mtd2">—</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Membre depuis</span><span id="mdd2">—</span></div>
+        <div class="dv"></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Cotisation</span><span style="font-weight:700;color:var(--acc)" id="mco">—</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Statut</span><span id="mcs"></span></div>
+       </div>
+      </div>
+     </div>
+     <div class="card"><div class="ch"><span class="ctitle">Prochains événements</span></div><div class="cb" id="mevd"></div></div>
+    </div>
+    <div class="card"><div class="ch"><span class="ctitle">Historique cotisations</span></div>
+     <div class="cb"><div class="tw"><table><thead><tr><th>Période</th><th>Montant</th><th>Date</th><th>Statut</th><th class="noprint">Reçu</th></tr></thead><tbody id="mrec"></tbody></table></div></div>
+    </div>
+   </div>
+   <div class="pg" id="page-m-annuaire">
+    <div class="sh"><div class="stitle">Annuaire</div></div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Membre</th><th>Rôle</th><th>Cotisation</th><th>Contact</th></tr></thead><tbody id="atb"></tbody></table></div></div>
+   </div>
+   <div class="pg" id="page-m-evts">
+    <div class="sh"><div class="stitle">Événements</div></div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Titre</th><th>Date</th><th>Lieu</th><th>Type</th></tr></thead><tbody id="metb"></tbody></table></div></div>
+   </div>
+
+   <!-- COMMISSAIRE -->
+   <div class="pg" id="page-c-dash">
+    <div class="hero2"><div style="font-size:42px">🔍</div><div><div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;margin-bottom:3px">Commissaire aux Comptes</div><div style="font-size:12px;color:var(--mut)">Contrôle financier et conformité.</div></div></div>
+    <div class="sg">
+     <div class="sc c3"><div class="sico">💹</div><div class="sval" id="cs1">0 FCFA</div><div class="slbl">Recettes</div></div>
+     <div class="sc c4"><div class="sico">📉</div><div class="sval" id="cs2">0 FCFA</div><div class="slbl">Dépenses</div></div>
+     <div class="sc c1"><div class="sico">🏦</div><div class="sval" id="cs3">0 FCFA</div><div class="slbl">Solde</div></div>
+     <div class="sc c2"><div class="sico">✅</div><div class="sval" id="cs4" style="font-size:14px">Conforme</div><div class="slbl">Statut audit</div></div>
+    </div>
+    <div class="g2">
+     <div class="card"><div class="ch"><span class="ctitle">Rapports d'audit</span><div class="srb"><button class="btn bg2 sm noprint" onclick="xpdf('audit')">📄 PDF</button><button class="btn bp sm noprint" onclick="om('addr')">+ Rapport</button></div></div><div class="cb" id="crp"></div></div>
+     <div class="card"><div class="ch"><span class="ctitle">Points de contrôle</span></div><div class="cb" id="ccl"></div></div>
+    </div>
+   </div>
+   <div class="pg" id="page-c-txn">
+    <div class="sh"><div><div class="stitle">Transactions — Vue audit</div><div class="ssub">Lecture seule · FCFA</div></div><button class="btn bg2 noprint" onclick="xpdf('finances')">📄 PDF</button></div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Date</th><th>Description</th><th>Catégorie</th><th>Type</th><th>Montant</th><th>Conformité</th></tr></thead><tbody id="cftb"></tbody></table></div></div>
+   </div>
+   <div class="pg" id="page-c-membres">
+    <div class="sh"><div><div class="stitle">Membres &amp; Cotisations</div></div><button class="btn bg2 noprint" onclick="xpdf('membres')">📄 PDF</button></div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Membre</th><th>Rôle</th><th>Cotisation</th><th>Montant dû</th><th>Observation</th></tr></thead><tbody id="cmtb"></tbody></table></div></div>
+   </div>
+
+   <!-- TRESORIER -->
+   <div class="pg" id="page-t-dash">
+    <div class="hero2"><div style="font-size:42px">💰</div><div><div style="font-family:'Playfair Display',serif;font-size:19px;font-weight:700;margin-bottom:3px">Espace Trésorier(e)</div><div style="font-size:12px;color:var(--mut)">Recettes, dépenses et cotisations — FCFA.</div></div></div>
+    <div class="sg">
+     <div class="sc c3"><div class="sico">💹</div><div class="sval" id="ts1">0 FCFA</div><div class="slbl">Recettes</div></div>
+     <div class="sc c4"><div class="sico">📉</div><div class="sval" id="ts2">0 FCFA</div><div class="slbl">Dépenses</div></div>
+     <div class="sc c1"><div class="sico">🏦</div><div class="sval" id="ts3">0 FCFA</div><div class="slbl">Solde</div></div>
+     <div class="sc c2"><div class="sico">🧾</div><div class="sval" id="ts4">0</div><div class="slbl">À recouvrer</div></div>
+    </div>
+    <div class="g2">
+     <div class="card"><div class="ch"><span class="ctitle">Saisie rapide</span></div>
+      <div class="cb"><div class="fg">
+       <div><label>Membre *</label><select id="tmembre" onchange="updTDesc()"><option value="">— Sélectionner —</option></select></div>
+       <div><label>Type *</label><select id="ttype" onchange="updTDesc()"><option value="Recette">Recette</option><option value="Dépense">Dépense</option></select></div>
+       <div class="ff"><label>Motif *</label>
+        <select id="tcat" onchange="showCasExc()">
+         <option value="Mensualité">Mensualité</option><option value="Adhésion">Adhésion</option>
+         <option value="Décès">Décès</option><option value="Naissance">Naissance</option>
+         <option value="Mariage">Mariage</option><option value="Maladie">Maladie</option>
+         <option value="Cas exceptionnel">Cas exceptionnel (texte libre)</option>
+        </select>
+       </div>
+       <div class="ff" id="tcas_exc_wrap" style="display:none"><label>Préciser *</label><input type="text" id="tcas_exc" placeholder="Décrivez..." oninput="updTDesc()"></div>
+       <div class="ff"><label>Description (auto-générée)</label><input type="text" id="tdesc" style="color:var(--mut)"></div>
+       <div><label>Montant (FCFA) *</label><input type="number" id="tmnt" placeholder="10000" min="0"></div>
+       <div><label>Date *</label><input type="date" id="tdate"></div>
+      </div>
+      <div style="margin-top:12px"><button class="btn bp" onclick="addFT()">Enregistrer</button></div>
+     </div></div>
+     <div class="card"><div class="ch"><span class="ctitle">Cotisations à recouvrer</span><button class="btn bg2 sm noprint" onclick="xpdf('cotisations')">🧾 PDF</button></div>
+      <div class="cb"><div class="tw"><table><thead><tr><th>Membre</th><th>Statut</th><th class="noprint">Action</th></tr></thead><tbody id="tctb"></tbody></table></div></div>
+     </div>
+    </div>
+   </div>
+   <div class="pg" id="page-t-txn">
+    <div class="sh"><div><div class="stitle">Transactions</div><div class="ssub">FCFA</div></div>
+     <div class="srb"><button class="btn bg2 noprint" onclick="xpdf('finances')">📄 PDF</button><button class="btn bp noprint" onclick="om('addf')">+ Transaction</button></div>
+    </div>
+    <div class="sg3">
+     <div class="sc c3"><div class="sico">💹</div><div class="sval" id="tfr">0 FCFA</div><div class="slbl">Recettes</div></div>
+     <div class="sc c4"><div class="sico">📉</div><div class="sval" id="tfd">0 FCFA</div><div class="slbl">Dépenses</div></div>
+     <div class="sc c1"><div class="sico">🏦</div><div class="sval" id="tfs">0 FCFA</div><div class="slbl">Solde</div></div>
+    </div>
+    <div class="card"><div class="tw"><table><thead><tr><th>Date</th><th>Description</th><th>Catégorie</th><th>Type</th><th>Montant</th><th class="noprint">Actions</th></tr></thead><tbody id="tftb"></tbody></table></div></div>
+   </div>
+
+  </div><!-- /ct -->
+ </main>
+</div><!-- /app -->
+
+<!-- MODALS -->
+<div class="mo" id="modal-addm"><div class="md">
+ <div class="mh"><span class="mt2">Nouveau membre</span><button class="xb" onclick="cm('addm')">×</button></div>
+ <div class="mbody"><div class="fg">
+  <div><label>Prénom *</label><input type="text" id="mp1" placeholder="Kouamé"></div>
+  <div><label>Nom *</label><input type="text" id="mp2" placeholder="Koffi"></div>
+  <div><label>Email *</label><input type="email" id="mp3" placeholder="k.koffi@email.com"></div>
+  <div><label>Téléphone</label><input type="tel" id="mp4" placeholder="+225 07 XX XX XX XX"></div>
+  <div><label>Rôle</label><input type="text" id="mp5" placeholder="Membre" value="Membre"></div>
+  <div><label>Cotisation</label><select id="mp6"><option>Payée</option><option>En attente</option><option>En retard</option></select></div>
+  <div style="background:rgba(95,168,245,.06);border:1px solid rgba(95,168,245,.2);border-radius:10px;padding:13px 15px;grid-column:1/-1">
+   <div style="font-size:11px;font-weight:700;color:var(--ac2);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Identifiants de connexion</div>
+   <div class="fg" style="gap:9px">
+    <div><label>Identifiant *</label><input type="text" id="mp9" placeholder="kouame.koffi" oninput="this.value=this.value.toLowerCase().replace(/\s/g,'')"></div>
+    <div><label>Mot de passe *</label><input type="password" id="mp8" placeholder="Mot de passe"></div>
+   </div>
+  </div>
+  <div class="ff"><label>Notes</label><textarea id="mp7" placeholder="Notes..."></textarea></div>
+ </div></div>
+ <div class="mfoot"><button class="btn bg2" onclick="cm('addm')">Annuler</button><button class="btn bp" onclick="addMembre()">Ajouter</button></div>
+</div></div>
+<div class="mo" id="modal-adde"><div class="md">
+ <div class="mh"><span class="mt2">Nouvel événement</span><button class="xb" onclick="cm('adde')">×</button></div>
+ <div class="mbody"><div class="fg">
+  <div class="ff"><label>Titre *</label><input type="text" id="ep1" placeholder="Assemblée générale"></div>
+  <div><label>Date *</label><input type="date" id="ep2"></div>
+  <div><label>Heure</label><input type="time" id="ep3" value="18:00"></div>
+  <div><label>Lieu</label><input type="text" id="ep4" placeholder="Abidjan"></div>
+  <div><label>Type</label><select id="ep5"><option>Réunion</option><option>Assemblée générale</option><option>Événement public</option><option>Formation</option><option>Sortie</option><option>Atelier</option></select></div>
+  <div class="ff"><label>Description</label><textarea id="ep6" placeholder="Détails..."></textarea></div>
+ </div></div>
+ <div class="mfoot"><button class="btn bg2" onclick="cm('adde')">Annuler</button><button class="btn bp" onclick="addEvt()">Créer</button></div>
+</div></div>
+<div class="mo" id="modal-addf"><div class="md">
+ <div class="mh"><span class="mt2">Nouvelle transaction</span><button class="xb" onclick="cm('addf')">×</button></div>
+ <div class="mbody"><div class="fg">
+  <div class="ff"><label>Description *</label><input type="text" id="fp1" placeholder="Cotisation — Membre"></div>
+  <div><label>Type</label><select id="fp2"><option>Recette</option><option>Dépense</option></select></div>
+  <div><label>Montant (FCFA) *</label><input type="number" id="fp3" placeholder="10000" min="0"></div>
+  <div><label>Date</label><input type="date" id="fp4"></div>
+  <div><label>Catégorie</label><select id="fp5"><option>Cotisation</option><option>Don</option><option>Subvention</option><option>Événement</option><option>Matériel</option><option>Loyer</option><option>Communication</option><option>Autre</option></select></div>
+ </div></div>
+ <div class="mfoot"><button class="btn bg2" onclick="cm('addf')">Annuler</button><button class="btn bp" onclick="addFin()">Enregistrer</button></div>
+</div></div>
+<div class="mo" id="modal-addd"><div class="md">
+ <div class="mh"><span class="mt2">Ajouter un document</span><button class="xb" onclick="cm('addd')">×</button></div>
+ <div class="mbody"><div class="fg">
+  <div class="ff"><label>Nom *</label><input type="text" id="dp1" placeholder="Statuts de l'association"></div>
+  <div><label>Type</label><select id="dp2"><option>📋 Statuts</option><option>📝 Compte-rendu</option><option>📊 Rapport</option><option>💰 Financier</option><option>📜 Administratif</option></select></div>
+  <div><label>Année</label><input type="number" id="dp3" value="2025"></div>
+  <div class="ff"><label>Description</label><textarea id="dp4" placeholder="Description..."></textarea></div>
+ </div></div>
+ <div class="mfoot"><button class="btn bg2" onclick="cm('addd')">Annuler</button><button class="btn bp" onclick="addDoc()">Ajouter</button></div>
+</div></div>
+<div class="mo" id="modal-addr"><div class="md">
+ <div class="mh"><span class="mt2">Rapport d'audit</span><button class="xb" onclick="cm('addr')">×</button></div>
+ <div class="mbody"><div class="fg">
+  <div class="ff"><label>Titre *</label><input type="text" id="rp1" placeholder="Rapport S1 2025"></div>
+  <div><label>Période</label><input type="text" id="rp2" placeholder="Jan – Jun 2025"></div>
+  <div><label>Conclusion</label><select id="rp3"><option>Conforme</option><option>Réserves mineures</option><option>Réserves majeures</option><option>Non conforme</option></select></div>
+  <div class="ff"><label>Observations</label><textarea id="rp4" placeholder="Observations..."></textarea></div>
+ </div></div>
+ <div class="mfoot"><button class="btn bg2" onclick="cm('addr')">Annuler</button><button class="btn bp" onclick="addRapport()">Enregistrer</button></div>
+</div></div>
+<div class="mo" id="modal-recu"><div class="md">
+ <div class="mh"><span class="mt2">🧾 Reçu de cotisation</span><button class="xb" onclick="cm('recu')">×</button></div>
+ <div class="mbody" id="recub"></div>
+ <div class="mfoot"><button class="btn bg2" onclick="cm('recu')">Fermer</button><button class="btn bp" onclick="window.print()">🖨️</button><button class="btn bgs" onclick="xpdf('recu')">📄 PDF</button></div>
+</div></div>
+<script>
+// =========================================================
+// CONSTANTES
+// =========================================================
+const COLS=['#e8c96d','#5fa8f5','#7ee8a2','#f87171','#c084fc','#fb923c','#38bdf8','#fb7185'];
+const PAYS_LABEL={CI:'🇨🇮 Côte d\'Ivoire',SN:'🇸🇳 Sénégal',ML:'🇲🇱 Mali',BF:'🇧🇫 Burkina Faso',NE:'🇳🇪 Niger',BJ:'🇧🇯 Bénin',TG:'🇹🇬 Togo',GW:'🇬🇼 Guinée-Bissau'};
+const fmt=n=>Number(n).toLocaleString('fr-FR')+' FCFA';
+const $i=id=>document.getElementById(id);
+const sv=(id,v)=>{const e=$i(id);if(e)e.textContent=v;};
+
+// =========================================================
+// MULTI-ASSOCIATIONS — STORAGE
+// =========================================================
+// ap_accounts = [{id, nom, pays, email, login, pwd, cot, createdAt}]
+// ap_data_[id] = {membres, evenements, finances, documents, rapports, notifs, p}
+
+function getAccounts(){
+  try{return JSON.parse(localStorage.getItem('ap_accounts'))||[];}catch(e){return[];}
+}
+function saveAccounts(a){localStorage.setItem('ap_accounts',JSON.stringify(a));}
+function getAssoData(id){
+  try{return JSON.parse(localStorage.getItem('ap_data_'+id))||null;}catch(e){return null;}
+}
+function saveAssoData(id,data){
+  localStorage.setItem('ap_data_'+id,JSON.stringify(data));
+  localStorage.setItem('ap_save_'+id,new Date().toLocaleString('fr-FR'));
+  const e=$i('lsi');if(e)e.textContent='Sauvegardé : '+new Date().toLocaleString('fr-FR');
+}
+function countAssos(){
+  const c=getAccounts().length;
+  sv('ctr-a',c>0?c+'':'0');
+}
+
+// =========================================================
+// ÉTAT COURANT
+// =========================================================
+let CUR={
+  assoId:null,       // ID association active
+  role:null,         // gestionnaire|membre|commissaire|tresorier
+  userName:'',       // nom affiché
+  membreId:null,     // si membre connecté
+  membres:[],evenements:[],finances:[],documents:[],rapports:[],notifs:[],
+  p:{nom:'',pays:'CI',cotisation:10000,email:'',tel:'',adresse:'',rccm:'',dateCreation:''}
+};
+
+function save(){saveAssoData(CUR.assoId,{membres:CUR.membres,evenements:CUR.evenements,finances:CUR.finances,documents:CUR.documents,rapports:CUR.rapports,notifs:CUR.notifs,p:CUR.p});}
+
+function loadAsso(id){
+  const d=getAssoData(id);
+  if(d){
+    ['membres','evenements','finances','documents','rapports','notifs'].forEach(k=>{if(d[k])CUR[k]=d[k];else CUR[k]=[];});
+    if(d.p)CUR.p={...CUR.p,...d.p};
+  } else {
+    CUR.membres=[];CUR.evenements=[];CUR.finances=[];CUR.documents=[];CUR.rapports=[];CUR.notifs=[];
+  }
+  CUR.assoId=id;
+}
+
+// =========================================================
+// NAVIGATION SCREENS
+// =========================================================
+function showS(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  const el=$i('s-'+name);
+  if(el){el.classList.add('on');}
+  if(name==='land')countAssos();
+}
+
+// =========================================================
+// INSCRIPTION
+// =========================================================
+function doSignup(){
+  const nom=$i('s-nom').value.trim();
+  const pays=$i('s-pays').value;
+  const email=$i('s-email').value.trim();
+  const login=$i('s-login').value.trim();
+  const pwd=$i('s-pwd').value;
+  const cot=parseInt($i('s-cot').value)||10000;
+  const err=$i('s-err');
+
+  if(!nom){showErr(err,'Le nom de l\'association est obligatoire.');return;}
+  if(!email||!email.includes('@')){showErr(err,'Email invalide.');return;}
+  if(!login){showErr(err,'L\'identifiant est obligatoire.');return;}
+  if(pwd.length<6){showErr(err,'Le mot de passe doit faire au moins 6 caractères.');return;}
+
+  const accounts=getAccounts();
+  // Vérifier unicité login
+  if(accounts.find(a=>a.login===login)){showErr(err,'Cet identifiant est déjà utilisé. Choisissez-en un autre.');return;}
+
+  const id='asso_'+Date.now();
+  const newAsso={id,nom,pays,email,login,pwd,cot,createdAt:new Date().toISOString()};
+  accounts.push(newAsso);
+  saveAccounts(accounts);
+
+  // Initialiser les données vides avec les paramètres
+  loadAsso(id);
+  CUR.p={nom,pays,cotisation:cot,email,tel:'',adresse:'',rccm:'',dateCreation:''};
+  save();
+
+  // Connecter directement en gestionnaire
+  CUR.role='gestionnaire';
+  CUR.userName=nom;
+  CUR.membreId=null;
+  showApp();
+  showT('Association "'+nom+'" créée avec succès ! 🎉','success');
+  // Reset form
+  ['s-nom','s-email','s-login','s-pwd'].forEach(id=>$i(id).value='');
+  $i('s-cot').value='10000';
+}
+
+function showErr(el,msg){el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',5000);}
+
+// =========================================================
+// CONNEXION
+// =========================================================
+function doLogin(){
+  const login=$i('l-login').value.trim();
+  const pwd=$i('l-pwd').value;
+  const err=$i('l-err');
+  if(!login||!pwd){showErr(err,'Identifiant et mot de passe requis.');return;}
+
+  const accounts=getAccounts();
+
+  // 1. Chercher admin association
+  const asso=accounts.find(a=>a.login===login&&a.pwd===pwd);
+  if(asso){
+    loadAsso(asso.id);
+    CUR.role='gestionnaire';CUR.userName=asso.nom;CUR.membreId=null;
+    $i('l-login').value='';$i('l-pwd').value='';
+    showApp();return;
+  }
+
+  // 2. Chercher dans membres de toutes les associations
+  const matches=[];
+  accounts.forEach(a=>{
+    const d=getAssoData(a.id);
+    if(!d||!d.membres)return;
+    const m=d.membres.find(m=>m.login===login&&m.mdp===pwd);
+    if(m)matches.push({asso:a,membre:m});
+  });
+
+  if(matches.length===0){showErr(err,'Identifiant ou mot de passe incorrect.');return;}
+
+  if(matches.length===1){
+    const {asso,membre}=matches[0];
+    loadAsso(asso.id);
+    // Rôle selon le rôle du membre
+    const r=getRoleFromMembre(membre);
+    CUR.role=r;CUR.userName=membre.prenom+' '+membre.nom;CUR.membreId=membre.id;
+    $i('l-login').value='';$i('l-pwd').value='';
+    showApp();return;
+  }
+
+  // Plusieurs associations → écran de choix
+  const pl=$i('pick-list');
+  pl.innerHTML=matches.map(({asso,membre})=>`
+    <div class="pick-c" onclick="loginAsMembre('${asso.id}','${membre.id}')">
+     <div class="pick-ico" style="background:${COLS[0]}">${asso.nom[0]}</div>
+     <div>
+      <div class="pick-name">${asso.nom}</div>
+      <div class="pick-meta">${PAYS_LABEL[asso.pays]||asso.pays} · ${membre.prenom} ${membre.nom} (${membre.role})</div>
+     </div>
+    </div>`).join('');
+  showS('pick');
+}
+
+function loginAsMembre(assoId,membreId){
+  loadAsso(assoId);
+  const membre=CUR.membres.find(m=>m.id==membreId||m.id===membreId);
+  if(!membre)return;
+  const r=getRoleFromMembre(membre);
+  CUR.role=r;CUR.userName=membre.prenom+' '+membre.nom;CUR.membreId=membre.id;
+  showApp();
+}
+
+function getRoleFromMembre(m){
+  const r=(m.role||'').toLowerCase();
+  if(r.includes('trésor')||r.includes('tresor'))return'tresorier';
+  if(r.includes('commissaire')||r.includes('audit'))return'commissaire';
+  return'membre';
+}
+
+function switchAsso(){showS('login');}
+function doLogout(){CUR.role=null;CUR.assoId=null;$i('app').classList.remove('on');showS('land');}
+
+// =========================================================
+// APP INIT
+// =========================================================
+function showApp(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  $i('app').classList.add('on');
+  initApp();
+  autoAlerts();
+}
+
+const ROLES={
+  gestionnaire:{l:'Gestionnaire',i:'🏛️',c:'#e8c96d',b:'rgba(232,201,109,.12)',
+    nav:[{s:'Principal'},{id:'g-dash',i:'🏠',l:'Accueil',lm:'Accueil'},{id:'g-membres',i:'👥',l:'Membres',lm:'Membres',badge:true},{id:'g-evts',i:'📅',l:'Événements',lm:'Agenda'},{id:'g-finances',i:'💰',l:'Finances',lm:'Finances'},{id:'g-docs',i:'📁',l:'Documents',lm:'Docs'},{s:'Outils'},{id:'g-params',i:'⚙️',l:'Paramètres',lm:'Réglages'}]},
+  membre:{l:'Membre',i:'👤',c:'#7ee8a2',b:'rgba(126,232,162,.12)',
+    nav:[{s:'Mon espace'},{id:'m-profil',i:'👤',l:'Mon profil',lm:'Profil'},{id:'m-annuaire',i:'👥',l:'Annuaire',lm:'Membres'},{id:'m-evts',i:'📅',l:'Événements',lm:'Agenda'}]},
+  commissaire:{l:'Commissaire',i:'🔍',c:'#5fa8f5',b:'rgba(95,168,245,.12)',
+    nav:[{s:'Audit'},{id:'c-dash',i:'🔍',l:'Tableau de bord',lm:'Accueil'},{id:'c-txn',i:'💰',l:'Transactions',lm:'Transac.'},{id:'c-membres',i:'👥',l:'Membres',lm:'Membres'}]},
+  tresorier:{l:'Trésorier(e)',i:'💰',c:'#fb923c',b:'rgba(251,146,60,.12)',
+    nav:[{s:'Trésorerie'},{id:'t-dash',i:'🏠',l:'Tableau de bord',lm:'Accueil'},{id:'t-txn',i:'📊',l:'Transactions',lm:'Saisie'},{s:'Budget'},{id:'page-t-budget',i:'📋',l:'Budget',lm:'Budget'}]}
+};
+
+function initApp(){
+  const R=ROLES[CUR.role];
+  // Sidebar header
+  sv('sb-nom',CUR.p.nom||'AssocPro');
+  const ri=$i('rind');ri.textContent=R.i+' '+R.l;ri.style.background=R.b;ri.style.color=R.c;
+  // User info
+  sv('snm',CUR.userName);sv('srl',R.l);
+  $i('sav').textContent=CUR.userName[0]||'U';
+  $i('sav').style.background='linear-gradient(135deg,'+R.c+',#5fa8f5)';
+  // Nav
+  bNav(R.nav);
+  // Pays
+  chgPays();
+  // Date par défaut
+  document.querySelectorAll('input[type=date]').forEach(i=>{if(!i.value)i.value=new Date().toISOString().split('T')[0];});
+  updND();
+  // Charger paramètres
+  ldP();
+  // Aller à la première page
+  const fp=R.nav.find(n=>n.id);if(fp)gp(fp.id);
+}
+
+function bNav(items){
+  const nav=$i('nav');nav.innerHTML='';
+  const mob=window.innerWidth<=768;
+  items.forEach(item=>{
+    if(item.s){if(!mob){const d=document.createElement('div');d.className='ns';d.textContent=item.s;nav.appendChild(d);}}
+    else{const d=document.createElement('div');d.className='ni';d.id='nav-'+item.id;d.onclick=()=>gp(item.id);
+    const label=mob&&item.lm?item.lm:item.l;
+    d.innerHTML='<span class="ic">'+item.i+'</span>'+label+(item.badge&&!mob?'<span class="bc" id="nbc">'+CUR.membres.length+'</span>':'');nav.appendChild(d);}
+  });
+}
+window.addEventListener('resize',()=>{if(CUR.role){bNav(ROLES[CUR.role].nav);}});
+
+// =========================================================
+// NAVIGATION PAGES
+// =========================================================
+let cp=null;
+function gp(name){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const pg=$i('page-'+name);if(pg)pg.classList.add('active');
+  const ni=$i('nav-'+name);if(ni)ni.classList.add('active');
+  cp=name;
+  const T={'g-dash':'Tableau de bord','g-membres':'Membres','g-evts':'Événements','g-finances':'Finances','g-docs':'Documents','g-params':'Paramètres','m-profil':'Mon profil','m-annuaire':'Annuaire','m-evts':'Événements','c-dash':'Tableau de bord','c-txn':'Transactions','c-membres':'Membres & Cotisations','t-dash':'Tableau de bord','t-txn':'Transactions','t-budget':'Budget'};
+  sv('ptitle',T[name]||'');
+  if(name==='g-dash')rGD();
+  if(name==='g-membres'){rM('mtb',true);uNM();}
+  if(name==='g-evts')rEv('etb',true);
+  if(name==='g-finances')rGF();
+  if(name==='g-docs')rDo();
+  if(name==='g-params')ldP();
+  if(name==='m-profil')rMP();
+  if(name==='m-annuaire')rM('atb',false);
+  if(name==='m-evts')rEv('metb',false);
+  if(name==='c-dash')rCD();
+  if(name==='c-txn')rCF();
+  if(name==='c-membres')rCM();
+  if(name==='t-dash'){rTD();fillMembreSelect();}
+  if(name==='t-txn')rTF();
+}
+function om(n){const m=$i('modal-'+n);if(m)m.classList.add('open');}
+function cm(n){const el=$i('modal-'+n);if(el)el.classList.remove('open');}
+document.querySelectorAll('.mo').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+function showT(msg,type='success'){const e=document.querySelector('.toast');if(e)e.remove();const t=document.createElement('div');t.className='toast '+type;const ic={success:'✅',danger:'❌',warning:'⚠️',info:'ℹ️'};t.innerHTML='<span>'+(ic[type]||'✅')+'</span>'+msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3500);}
+
+// =========================================================
+// NOTIFICATIONS
+// =========================================================
+function addN(title,msg,type='info'){CUR.notifs.unshift({id:Date.now(),title,msg,type,time:new Date().toLocaleString('fr-FR')});if(CUR.notifs.length>50)CUR.notifs.pop();save();updND();rNL();}
+function updND(){const d=$i('ndot');if(d)d.classList.toggle('on',CUR.notifs.length>0);}
+function rNL(){const l=$i('nl');if(!l)return;if(!CUR.notifs.length){l.innerHTML='<div style="text-align:center;padding:40px;color:var(--mut);font-size:12px">Aucune notification</div>';return;}l.innerHTML=CUR.notifs.map(n=>`<div class="nitem ${n.type}"><div style="font-size:12px;font-weight:700;margin-bottom:2px">${n.title}</div><div style="font-size:11px;color:var(--mut);line-height:1.5">${n.msg}</div><div style="font-size:9px;color:var(--mut);margin-top:4px">${n.time}</div></div>`).join('');}
+function clearN(){CUR.notifs=[];save();updND();rNL();}
+function toggleN(){$i('np').classList.toggle('open');rNL();}
+function autoAlerts(){
+  const ret=CUR.membres.filter(m=>m.cotisation==='En retard');
+  if(ret.length)addN('⚠️ Cotisations en retard',ret.length+' membre(s) en retard.','danger');
+  const up=CUR.evenements.filter(e=>{const d=(new Date(e.date)-new Date())/86400000;return d>=0&&d<=7;});
+  if(up.length)addN('📅 Événement cette semaine',up.map(e=>e.titre).join(' · '),'info');
+  const t=tot();if(t.s<0)addN('🔴 Solde déficitaire','Trésorerie : '+fmt(t.s),'danger');
+}
+
+// =========================================================
+// PARAMETRES
+// =========================================================
+function svP(){
+  [['pnom','nom'],['pemail','email'],['ptel','tel'],['padr','adresse'],['ppays','pays'],['prccm','rccm'],['pdate','dateCreation']].forEach(([id,k])=>{const e=$i(id);if(e)CUR.p[k]=e.value;});
+  const c=$i('pcot');if(c)CUR.p.cotisation=parseInt(c.value)||10000;
+  save();
+  // Mettre à jour le nom dans la sidebar
+  sv('sb-nom',CUR.p.nom||'AssocPro');
+  // Mettre à jour le compte
+  const accounts=getAccounts();
+  const idx=accounts.findIndex(a=>a.id===CUR.assoId);
+  if(idx>=0){accounts[idx].nom=CUR.p.nom||accounts[idx].nom;accounts[idx].pays=CUR.p.pays;saveAccounts(accounts);}
+}
+function ldP(){
+  [['pnom','nom'],['pemail','email'],['ptel','tel'],['padr','adresse'],['ppays','pays'],['prccm','rccm'],['pdate','dateCreation'],['pcot','cotisation']].forEach(([id,k])=>{const e=$i(id);if(e&&CUR.p[k]!==undefined)e.value=CUR.p[k];});
+  chgPays();
+}
+function chgPays(){const s=$i('ppays');if(!s)return;sv('pyl',(PAYS_LABEL[s.value]||'UEMOA')+' · XOF');CUR.p.pays=s.value;}
+
+// =========================================================
+// HELPERS
+// =========================================================
+function tot(){const r=CUR.finances.filter(f=>f.type==='Recette').reduce((s,f)=>s+f.montant,0);const d=CUR.finances.filter(f=>f.type==='Dépense').reduce((s,f)=>s+f.montant,0);return{r,d,s:r-d};}
+function upcom(){return CUR.evenements.filter(e=>new Date(e.date)>=new Date()).slice(0,4);}
+function cb(c){return c==='Payée'?'ok':c==='En retard'?'ko':'wt';}
+function uNM(){sv('gmc',CUR.membres.length+' membre(s)');const n=$i('nbc');if(n)n.textContent=CUR.membres.length;}
+
+// =========================================================
+// MEMBRES
+// =========================================================
+function addMembre(){
+  const p=$i('mp1').value.trim(),n=$i('mp2').value.trim(),e=$i('mp3').value.trim();
+  const login=$i('mp9').value.trim(),mdp=$i('mp8').value.trim();
+  if(!p||!n||!e){alert('Prénom, nom et email obligatoires.');return;}
+  if(!login){alert('L\'identifiant est obligatoire.');return;}
+  if(!mdp){alert('Le mot de passe est obligatoire.');return;}
+  if(CUR.membres.find(m=>m.login===login)){alert('Cet identifiant est déjà utilisé.');return;}
+  CUR.membres.push({id:Date.now(),prenom:p,nom:n,email:e,tel:$i('mp4').value,role:$i('mp5').value,login,mdp,cotisation:$i('mp6').value,notes:$i('mp7').value,color:COLS[CUR.membres.length%COLS.length],dateInscription:new Date().toLocaleDateString('fr-FR')});
+  ['mp1','mp2','mp3','mp4','mp7','mp8','mp9'].forEach(id=>{const el=$i(id);if(el)el.value='';});
+  $i('mp5').value='Membre';
+  cm('addm');save();rM('mtb',true);uNM();rAll();
+  addN('👤 Nouveau membre',p+' '+n+' ajouté(e).','success');showT(p+' '+n+' ajouté(e) !','success');
+}
+function rM(tbid,canD,filter=''){
+  const tb=$i(tbid);if(!tb)return;
+  const list=CUR.membres.filter(m=>(m.prenom+' '+m.nom+' '+m.email).toLowerCase().includes(filter.toLowerCase()));
+  const cols=canD?7:4;
+  if(!list.length){tb.innerHTML=`<tr><td colspan="${cols}" style="text-align:center;padding:28px;color:var(--mut)">${filter?'Aucun résultat.':'Aucun membre.'}</td></tr>`;return;}
+  if(canD){
+    tb.innerHTML=list.map(m=>`<tr>
+      <td><div class="mc"><div class="avs" style="background:${m.color}20;color:${m.color}">${m.prenom[0]}${m.nom[0]}</div><div><div style="font-weight:600">${m.prenom} ${m.nom}</div><div style="font-size:10px;color:var(--mut)">${m.dateInscription}</div></div></div></td>
+      <td>${m.email}</td><td><span class="tag">${m.role}</span></td>
+      <td><span style="font-family:monospace;font-size:11px;color:var(--ac2);background:var(--bg);padding:2px 7px;border-radius:5px;border:1px solid var(--bd)">${m.login||'—'}</span></td>
+      <td><span style="font-family:monospace;font-size:11px;color:var(--mut);background:var(--bg);padding:2px 7px;border-radius:5px;border:1px solid var(--bd)">${m.mdp||'—'}</span></td>
+      <td><span class="bdg ${cb(m.cotisation)}">${m.cotisation}</span></td>
+      <td class="noprint"><div class="acell">
+        <button class="btn bgs sm" onclick="mPaye(${m.id})">✓ Payé</button>
+        <button class="btn bgi sm" onclick="shRecu(${m.id})">🧾</button>
+        <button class="btn brd sm" onclick="delM(${m.id})">🗑</button>
+      </div></td></tr>`).join('');
+  }else{
+    tb.innerHTML=list.map(m=>`<tr>
+      <td><div class="mc"><div class="avs" style="background:${m.color}20;color:${m.color}">${m.prenom[0]}${m.nom[0]}</div><strong>${m.prenom} ${m.nom}</strong></div></td>
+      <td><span class="tag">${m.role}</span></td>
+      <td><span class="bdg ${cb(m.cotisation)}">${m.cotisation}</span></td>
+      <td style="color:var(--mut)">${m.tel||m.email||'—'}</td></tr>`).join('');
+  }
+}
+function filtM(v){rM('mtb',true,v);}
+function mPaye(id){const m=CUR.membres.find(x=>x.id===id);if(!m)return;m.cotisation='Payée';CUR.finances.unshift({id:Date.now(),desc:'Cotisation — '+m.prenom+' '+m.nom,type:'Recette',montant:CUR.p.cotisation||10000,date:new Date().toISOString().split('T')[0],cat:'Cotisation'});save();rM('mtb',true);rAll();addN('💰 Cotisation',m.prenom+' '+m.nom+' : '+fmt(CUR.p.cotisation||10000),'success');showT('Cotisation payée !','success');}
+function delM(id){if(!confirm('Supprimer ce membre ?'))return;CUR.membres=CUR.membres.filter(m=>m.id!==id);save();rM('mtb',true);uNM();rAll();showT('Membre supprimé.','warning');}
+function shRecu(id){
+  const m=CUR.membres.find(x=>x.id===id);if(!m)return;
+  const cot=CUR.p.cotisation||10000,now=new Date().toLocaleDateString('fr-FR');
+  $i('recub').innerHTML=`<div style="font-family:'Playfair Display',serif;text-align:center;margin-bottom:18px"><div style="font-size:20px;font-weight:700;color:var(--acc)">${CUR.p.nom}</div><div style="font-size:11px;color:var(--mut)">REÇU DE COTISATION · FCFA (XOF) · Zone UEMOA</div></div>
+  <div style="border:2px dashed var(--bd);border-radius:10px;padding:18px;font-size:12px;display:grid;gap:9px">
+   <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">N°</span><strong>REC-${m.id}</strong></div>
+   <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Date</span><span>${now}</span></div>
+   <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Membre</span><strong>${m.prenom} ${m.nom}</strong></div>
+   <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Rôle</span><span>${m.role}</span></div>
+   <div style="background:var(--sf2);border-radius:8px;padding:11px;display:flex;justify-content:space-between;align-items:center;margin-top:4px"><span style="font-weight:700">Cotisation annuelle 2025</span><span style="font-size:16px;font-weight:700;color:var(--ac3)">${fmt(cot)}</span></div>
+   <div style="display:flex;justify-content:space-between"><span style="color:var(--mut)">Statut</span><span class="bdg ${cb(m.cotisation)}">${m.cotisation}</span></div>
+  </div>
+  <div style="text-align:center;margin-top:14px;font-size:10px;color:var(--mut)">Généré par AssocPro · ${CUR.p.nom} · Zone UEMOA</div>`;
+  om('recu');
+}
+
+// =========================================================
+// EVENEMENTS
+// =========================================================
+function addEvt(){
+  const t=$i('ep1').value.trim(),d=$i('ep2').value;if(!t||!d){alert('Titre et date obligatoires.');return;}
+  CUR.evenements.push({id:Date.now(),titre:t,date:d,heure:$i('ep3').value,lieu:$i('ep4').value,type:$i('ep5').value,desc:$i('ep6').value});
+  CUR.evenements.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  ['ep1','ep6','ep4'].forEach(id=>{const el=$i(id);if(el)el.value='';});
+  cm('adde');save();rEv('etb',true);rAll();
+  addN('📅 Événement créé',t+' le '+new Date(d).toLocaleDateString('fr-FR'),'info');showT('"'+t+'" créé !','success');
+}
+function rEv(tbid,canD){
+  const tb=$i(tbid);if(!tb)return;
+  const cols=canD?6:4;
+  if(!CUR.evenements.length){tb.innerHTML=`<tr><td colspan="${cols}" style="text-align:center;padding:28px;color:var(--mut)">Aucun événement.</td></tr>`;return;}
+  tb.innerHTML=CUR.evenements.map(e=>`<tr>
+    <td><strong>${e.titre}</strong></td>
+    <td>${new Date(e.date).toLocaleDateString('fr-FR')}</td>
+    ${canD?`<td>${e.heure||'—'}</td><td>${e.lieu||'—'}</td>`:`<td>${e.lieu||'—'}</td>`}
+    <td><span class="tag">${e.type}</span></td>
+    ${canD?`<td class="noprint"><button class="btn brd sm" onclick="delE(${e.id})">🗑</button></td>`:''}</tr>`).join('');
+}
+function rEvL(cid){
+  const c=$i(cid);if(!c)return;
+  const l=upcom();
+  if(!l.length){c.innerHTML='<div style="text-align:center;padding:30px;color:var(--mut);font-size:12px">Aucun événement prévu</div>';return;}
+  c.innerHTML=l.map(e=>{const d=new Date(e.date);return`<div class="eitem"><div class="edate"><div class="eday">${d.getDate()}</div><div class="emon">${d.toLocaleString('fr-FR',{month:'short'})}</div></div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">${e.titre}</div><div style="font-size:10px;color:var(--mut)">${e.heure||''} ${e.lieu?'· '+e.lieu:''}</div></div></div>`;}).join('');
+}
+function delE(id){if(!confirm('Supprimer ?'))return;CUR.evenements=CUR.evenements.filter(e=>e.id!==id);save();rEv('etb',true);rAll();showT('Événement supprimé.','warning');}
+
+// =========================================================
+// FINANCES
+// =========================================================
+function _af(desc,type,montant,cat,date){CUR.finances.unshift({id:Date.now(),desc,type,montant,date:date||new Date().toISOString().split('T')[0],cat});save();}
+function addFin(){
+  const d=$i('fp1').value.trim(),m=parseFloat($i('fp3').value);
+  if(!d||isNaN(m)||m<=0){alert('Description et montant obligatoires.');return;}
+  _af(d,$i('fp2').value,m,$i('fp5').value,$i('fp4').value);
+  $i('fp1').value='';$i('fp3').value='';cm('addf');rAll();showT(fmt(m)+' enregistré !','success');
+}
+function updTDesc(){
+  const mid=$i('tmembre').value;
+  const m=CUR.membres.find(x=>String(x.id)===mid);
+  const cat=$i('tcat')?$i('tcat').value:'';
+  const exc=$i('tcas_exc')?$i('tcas_exc').value.trim():'';
+  const motif=cat==='Cas exceptionnel'?(exc||'Cas exceptionnel'):cat;
+  const desc=m?(motif+' — '+m.prenom+' '+m.nom):motif;
+  const el=$i('tdesc');if(el){el.value=desc;el.style.color=m?'var(--txt)':'var(--mut)';}
+}
+function showCasExc(){
+  const cat=$i('tcat').value;
+  const w=$i('tcas_exc_wrap');if(w)w.style.display=cat==='Cas exceptionnel'?'block':'none';
+  if(cat!=='Cas exceptionnel'){const e=$i('tcas_exc');if(e)e.value='';}
+  updTDesc();
+}
+function fillMembreSelect(){
+  const sel=$i('tmembre');if(!sel)return;
+  sel.innerHTML='<option value="">— Sélectionner —</option>'+CUR.membres.map(m=>`<option value="${m.id}">${m.prenom} ${m.nom} (${m.role})</option>`).join('');
+}
+function addFT(){
+  const mid=$i('tmembre').value;
+  const d=$i('tdesc').value.trim();
+  const m2=parseFloat($i('tmnt').value);
+  const cat=$i('tcat').value;
+  if(!mid){showT('Sélectionnez un membre.','danger');return;}
+  if(cat==='Cas exceptionnel'&&!$i('tcas_exc').value.trim()){showT('Précisez le cas exceptionnel.','danger');return;}
+  if(!d||isNaN(m2)||m2<=0){alert('Montant obligatoire.');return;}
+  _af(d,$i('ttype').value,m2,cat,$i('tdate').value);
+  $i('tmnt').value='';$i('tmembre').value='';$i('tcas_exc').value='';
+  $i('tcas_exc_wrap').style.display='none';updTDesc();rAll();rTF();rTC();
+  addN('🧾 Transaction',d+' : '+fmt(m2),'info');showT(fmt(m2)+' enregistré !','success');
+}
+function delFin(id){if(!confirm('Supprimer ?'))return;CUR.finances=CUR.finances.filter(f=>f.id!==id);save();rAll();if(cp==='g-finances')rGF();if(cp==='t-txn')rTF();showT('Supprimé.','warning');}
+function _ft(tbid,canD){
+  const tb=$i(tbid);if(!tb)return;
+  const cols=canD?6:6;
+  if(!CUR.finances.length){tb.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--mut)">Aucune transaction.</td></tr>`;return;}
+  tb.innerHTML=CUR.finances.map(f=>{const isR=f.type==='Recette';return`<tr>
+    <td>${new Date(f.date).toLocaleDateString('fr-FR')}</td><td>${f.desc}</td>
+    <td><span class="tag">${f.cat}</span></td><td>${isR?'↑ Recette':'↓ Dépense'}</td>
+    <td class="${isR?'apos':'aneg'}">${isR?'+':'-'}${fmt(f.montant)}</td>
+    <td class="noprint">${canD?'<button class="btn brd sm" onclick="delFin('+f.id+')">🗑</button>':'<span class="bdg ok">Conforme</span>'}</td></tr>`;}).join('');
+}
+function rGF(){_ft('ftb',true);const t=tot();sv('gfr',fmt(t.r));sv('gfd',fmt(t.d));sv('gfs',fmt(t.s));sv('gfn',CUR.finances.length);}
+function rTF(){_ft('tftb',true);const t=tot();sv('tfr',fmt(t.r));sv('tfd',fmt(t.d));sv('tfs',fmt(t.s));}
+function rCF(){_ft('cftb',false);}
+
+// =========================================================
+// DOCUMENTS
+// =========================================================
+function addDoc(){
+  const n=$i('dp1').value.trim();if(!n){alert('Nom obligatoire.');return;}
+  CUR.documents.unshift({id:Date.now(),nom:n,type:$i('dp2').value,annee:$i('dp3').value,desc:$i('dp4').value});
+  $i('dp1').value='';$i('dp4').value='';cm('addd');save();rDo();showT('Document ajouté !','success');
+}
+function rDo(){
+  const g=$i('dg');if(!g)return;
+  if(!CUR.documents.length){g.innerHTML='<div style="text-align:center;padding:40px;color:var(--mut);grid-column:1/-1"><div style="font-size:36px;margin-bottom:9px">📁</div><p>Aucun document.</p></div>';return;}
+  g.innerHTML=CUR.documents.map(d=>`<div class="card"><div class="cb"><div style="font-size:26px;margin-bottom:8px">${d.type.split(' ')[0]}</div><div style="font-weight:600;margin-bottom:3px">${d.nom}</div><div style="font-size:11px;color:var(--mut);margin-bottom:11px">${d.type.split(' ').slice(1).join(' ')} · ${d.annee}</div><div class="noprint" style="display:flex;gap:6px"><button class="btn brd sm" onclick="delD(${d.id})">🗑</button></div></div></div>`).join('');
+}
+function delD(id){if(!confirm('Supprimer ?'))return;CUR.documents=CUR.documents.filter(d=>d.id!==id);save();rDo();showT('Supprimé.','warning');}
+
+// =========================================================
+// RAPPORTS
+// =========================================================
+function addRapport(){
+  const t=$i('rp1').value.trim();if(!t){alert('Titre obligatoire.');return;}
+  CUR.rapports.unshift({id:Date.now(),titre:t,periode:$i('rp2').value,conclusion:$i('rp3').value,obs:$i('rp4').value,date:new Date().toLocaleDateString('fr-FR')});
+  $i('rp1').value='';$i('rp4').value='';cm('addr');save();rCD();
+  addN('📋 Rapport d\'audit',t,'info');showT('Rapport enregistré !','success');
+}
+
+// =========================================================
+// COMMISSAIRE
+// =========================================================
+function rCM(){
+  const tb=$i('cmtb');if(!tb)return;
+  if(!CUR.membres.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:28px;color:var(--mut)">Aucun membre.</td></tr>';return;}
+  tb.innerHTML=CUR.membres.map(m=>`<tr>
+    <td><div class="mc"><div class="avs" style="background:${m.color}20;color:${m.color}">${m.prenom[0]}${m.nom[0]}</div><strong>${m.prenom} ${m.nom}</strong></div></td>
+    <td><span class="tag">${m.role}</span></td><td><span class="bdg ${cb(m.cotisation)}">${m.cotisation}</span></td>
+    <td>${fmt(CUR.p.cotisation||10000)}</td>
+    <td style="color:var(--mut)">${m.cotisation==='Payée'?'✓ RAS':'⚠ À recouvrer'}</td></tr>`).join('');
+}
+function rCD(){
+  const t=tot();sv('cs1',fmt(t.r));sv('cs2',fmt(t.d));sv('cs3',fmt(t.s));sv('cs4',t.s>=0?'Conforme':'Déficitaire');
+  const r=$i('crp');if(r){let h=CUR.rapports.map(rp=>`<div style="background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:13px 15px;margin-bottom:9px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">📋</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">${rp.titre}</div><div style="font-size:11px;color:var(--mut)">${rp.periode||''} · ${rp.date}</div></div><span class="bdg ${rp.conclusion==='Conforme'?'ok':'wt'}">${rp.conclusion}</span></div>`).join('');if(!h)h='<div style="text-align:center;padding:24px;color:var(--mut);font-size:12px">Aucun rapport.</div>';r.innerHTML=h;}
+  const cl=$i('ccl');if(cl)cl.innerHTML=`<div style="display:grid;gap:10px;font-size:12px">
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" checked> Vérification des pièces justificatives</label>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" checked> Concordance recettes / dépenses</label>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" ${CUR.membres.filter(m=>m.cotisation!=='Payée').length===0?'checked':''}> Cotisations perçues vérifiées</label>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox"> Vérification des contrats</label>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox"> Approbation du budget</label>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox"> Signature du rapport final</label></div>`;
+}
+
+// =========================================================
+// TRESORIER
+// =========================================================
+function rTD(){const t=tot();sv('ts1',fmt(t.r));sv('ts2',fmt(t.d));sv('ts3',fmt(t.s));sv('ts4',CUR.membres.filter(m=>m.cotisation!=='Payée').length);}
+function rTC(){
+  const tb=$i('tctb');if(!tb)return;
+  const l=CUR.membres.filter(m=>m.cotisation!=='Payée');
+  if(!l.length){tb.innerHTML='<tr><td colspan="3" style="text-align:center;padding:16px;color:var(--ac3)">✓ Toutes les cotisations sont à jour !</td></tr>';return;}
+  tb.innerHTML=l.map(m=>`<tr>
+    <td><div class="mc"><div class="avs" style="background:${m.color}20;color:${m.color}">${m.prenom[0]}${m.nom[0]}</div>${m.prenom} ${m.nom}</div></td>
+    <td><span class="bdg ${cb(m.cotisation)}">${m.cotisation}</span></td>
+    <td class="noprint"><button class="btn bgs sm" onclick="encaisser(${m.id})">💰 Encaisser</button></td></tr>`).join('');
+}
+function encaisser(id){const m=CUR.membres.find(x=>x.id===id);if(!m)return;m.cotisation='Payée';_af('Cotisation — '+m.prenom+' '+m.nom,'Recette',CUR.p.cotisation||10000,'Cotisation','');rTC();rAll();addN('💰 Cotisation encaissée',m.prenom+' '+m.nom+' : '+fmt(CUR.p.cotisation||10000),'success');showT('Cotisation encaissée !','success');}
+
+// =========================================================
+// MEMBRE PROFIL
+// =========================================================
+function rMP(){
+  const m=CUR.membreId?CUR.membres.find(x=>x.id===CUR.membreId||x.id==CUR.membreId):null;
+  const cot=CUR.p.cotisation||10000;sv('mco',fmt(cot));
+  if(m){sv('mnd',m.prenom+' '+m.nom);sv('mrd',m.role);sv('med2',m.email);sv('mtd2',m.tel||'—');sv('mdd2',m.dateInscription);
+    const av=$i('mav');if(av)av.textContent=m.prenom[0];
+    const cs=$i('mcs');if(cs)cs.innerHTML='<span class="bdg '+cb(m.cotisation)+'">'+m.cotisation+'</span>';}
+  rEvL('mevd');
+  const tb=$i('mrec');if(tb){
+    const paid=m?CUR.finances.filter(f=>f.cat==='Cotisation'&&f.desc.includes(m.prenom)).slice(0,5):[];
+    if(paid.length)tb.innerHTML=paid.map(f=>`<tr><td>2025</td><td>${fmt(f.montant)}</td><td>${new Date(f.date).toLocaleDateString('fr-FR')}</td><td><span class="bdg ok">Payée</span></td><td class="noprint"><button class="btn bg2 sm" onclick="shRecu(${m?m.id:0})">🧾</button></td></tr>`).join('');
+    else tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:18px;color:var(--mut)">Aucun reçu disponible.</td></tr>';
+  }
+}
+
+// =========================================================
+// DASHBOARD GESTIONNAIRE
+// =========================================================
+function rGD(){
+  const t=tot(),obj=500000;
+  sv('gs1',CUR.membres.length);sv('gs2',upcom().length);sv('gs3',fmt(t.s));sv('gs4',CUR.membres.filter(m=>m.cotisation==='En retard').length);
+  sv('gdr',fmt(t.r));sv('gdd',fmt(t.d));
+  const pr=$i('gprr');if(pr)pr.style.width=Math.min(t.r/obj*100,100)+'%';
+  const pd=$i('gprd');if(pd)pd.style.width=Math.min(t.d/obj*100,100)+'%';
+  rEvL('gde');
+  const al=$i('gal');if(al)al.innerHTML=`
+    <li class="ai"><div class="adot" style="background:var(--ac3)"></div><div style="font-size:12px">Membres actifs : <strong>${CUR.membres.length}</strong></div></li>
+    <li class="ai"><div class="adot" style="background:var(--acc)"></div><div style="font-size:12px">Solde trésorerie : <strong>${fmt(t.s)}</strong></div></li>
+    <li class="ai"><div class="adot" style="background:var(--ac2)"></div><div style="font-size:12px">Événements à venir : <strong>${upcom().length}</strong></div></li>
+    <li class="ai"><div class="adot" style="background:var(--red)"></div><div style="font-size:12px">Cotisations en retard : <strong>${CUR.membres.filter(m=>m.cotisation==='En retard').length}</strong></div></li>
+    <li class="ai"><div class="adot" style="background:var(--pur)"></div><div style="font-size:12px">Transactions : <strong>${CUR.finances.length}</strong></div></li>`;
+}
+function rAll(){
+  rGD();rCD();rTD();uNM();
+  const t=tot();
+  sv('gfr',fmt(t.r));sv('gfd',fmt(t.d));sv('gfs',fmt(t.s));sv('gfn',CUR.finances.length);
+  sv('tfr',fmt(t.r));sv('tfd',fmt(t.d));sv('tfs',fmt(t.s));
+}
+
+// =========================================================
+// JSON EXPORT/IMPORT
+// =========================================================
+function xJson(){
+  const b=new Blob([JSON.stringify({membres:CUR.membres,evenements:CUR.evenements,finances:CUR.finances,documents:CUR.documents,rapports:CUR.rapports,p:CUR.p,asso:CUR.assoId,date:new Date().toISOString()},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='assocpro-'+( CUR.p.nom||'export')+'-'+new Date().toISOString().split('T')[0]+'.json';a.click();
+  showT('Données exportées ✓','success');
+}
+function iJson(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{try{const d=JSON.parse(e.target.result);if(d.membres)CUR.membres=d.membres;if(d.evenements)CUR.evenements=d.evenements;if(d.finances)CUR.finances=d.finances;if(d.documents)CUR.documents=d.documents;if(d.rapports)CUR.rapports=d.rapports;if(d.p)CUR.p={...CUR.p,...d.p};save();rAll();showT('Importé ✓','success');}catch(err){showT('Fichier invalide.','danger');}};
+  r.readAsText(f);inp.value='';
+}
+function resetData(){if(!confirm('Réinitialiser toutes les données de cette association ?'))return;CUR.membres=[];CUR.evenements=[];CUR.finances=[];CUR.documents=[];CUR.rapports=[];CUR.notifs=[];save();rAll();showT('Réinitialisé.','warning');}
+
+// =========================================================
+// PDF EXPORT
+// =========================================================
+function xpdf(type){
+  const {jsPDF}=window.jspdf;if(!jsPDF){showT('PDF non disponible.','danger');return;}
+  const doc=new jsPDF();const now=new Date().toLocaleString('fr-FR');const nom=CUR.p.nom||'AssocPro';const t=tot();
+  doc.setFillColor(22,27,34);doc.rect(0,0,210,30,'F');
+  doc.setTextColor(232,201,109);doc.setFontSize(18);doc.setFont('helvetica','bold');doc.text(nom,14,18);
+  doc.setTextColor(139,148,158);doc.setFontSize(9);doc.text('AssocPro UEMOA · XOF · '+now,14,25);
+  doc.setTextColor(30,30,30);doc.setFontSize(11);
+  if(type==='membres'){
+    doc.setFont('helvetica','bold');doc.text('LISTE DES MEMBRES',14,42);doc.setFont('helvetica','normal');doc.setFontSize(9);let y=54;
+    CUR.membres.forEach((m,i)=>{if(y>270){doc.addPage();y=20;}if(i%2===0){doc.setFillColor(248,248,252);doc.rect(10,y-5,190,10,'F');}doc.text(m.prenom+' '+m.nom,14,y);doc.text(m.role,80,y);doc.text(m.cotisation,130,y);doc.text(m.login||'',155,y,{maxWidth:45});y+=12;});
+    doc.setFontSize(10);doc.text('Total : '+CUR.membres.length+' membre(s)',14,y+5);
+  }else if(type==='finances'){
+    doc.setFont('helvetica','bold');doc.text('RAPPORT FINANCIER',14,42);doc.setFont('helvetica','normal');doc.setFontSize(10);
+    doc.text('Recettes : '+fmt(t.r),14,54);doc.text('Dépenses : '+fmt(t.d),14,62);doc.text('Solde : '+fmt(t.s),14,70);
+    doc.setFontSize(9);let y=84;
+    CUR.finances.slice(0,30).forEach((f,i)=>{if(y>270){doc.addPage();y=20;}if(i%2===0){doc.setFillColor(248,248,252);doc.rect(10,y-5,190,10,'F');}doc.text(new Date(f.date).toLocaleDateString('fr-FR'),14,y);doc.text(f.desc.substring(0,38),38,y);doc.text(f.type,140,y);doc.text((f.type==='Recette'?'+':'-')+fmt(f.montant),162,y);y+=12;});
+  }else if(type==='recu'){
+    const m=CUR.membreId?CUR.membres.find(x=>x.id===CUR.membreId||x.id==CUR.membreId):CUR.membres[0];
+    if(!m){showT('Aucun membre.','danger');return;}
+    const cot=CUR.p.cotisation||10000;
+    doc.setFont('helvetica','bold');doc.text('REÇU DE COTISATION',14,45);doc.setFont('helvetica','normal');doc.setFontSize(10);
+    doc.text('N° : REC-'+m.id,14,58);doc.text('Date : '+new Date().toLocaleDateString('fr-FR'),14,66);
+    doc.text('Membre : '+m.prenom+' '+m.nom,14,74);doc.text('Rôle : '+m.role,14,82);
+    doc.setFont('helvetica','bold');doc.setFontSize(13);doc.text('Cotisation 2025 : '+fmt(cot),14,98);
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('Statut : '+m.cotisation,14,108);
+  }else if(type==='audit'){
+    doc.setFont('helvetica','bold');doc.text("RAPPORT D'AUDIT",14,42);doc.setFont('helvetica','normal');doc.setFontSize(10);
+    doc.text('Recettes : '+fmt(t.r),14,54);doc.text('Dépenses : '+fmt(t.d),14,62);doc.text('Solde : '+fmt(t.s),14,70);
+    let y=82;CUR.rapports.forEach(r=>{doc.text('• '+r.titre+' — '+r.conclusion,14,y);y+=8;});
+  }else if(type==='cotisations'){
+    doc.setFont('helvetica','bold');doc.text('COTISATIONS À RECOUVRER',14,42);doc.setFont('helvetica','normal');doc.setFontSize(10);
+    const l=CUR.membres.filter(m=>m.cotisation!=='Payée');doc.text('Nombre : '+l.length,14,54);
+    let y=66;l.forEach(m=>{doc.text('• '+m.prenom+' '+m.nom+' ('+m.cotisation+') — '+fmt(CUR.p.cotisation||10000),14,y);y+=8;});
+  }else if(type==='evenements'){
+    doc.setFont('helvetica','bold');doc.text('CALENDRIER',14,42);doc.setFont('helvetica','normal');doc.setFontSize(9);let y=54;
+    CUR.evenements.forEach(e=>{doc.text('• '+e.titre+' — '+new Date(e.date).toLocaleDateString('fr-FR')+' '+( e.heure||'')+' '+( e.lieu?'· '+e.lieu:''),14,y);y+=8;});
+  }else{
+    doc.setFont('helvetica','bold');doc.text('FICHE DE L\'ASSOCIATION',14,42);doc.setFont('helvetica','normal');doc.setFontSize(10);
+    doc.text('Nom : '+nom,14,54);if(CUR.p.email)doc.text('Email : '+CUR.p.email,14,62);if(CUR.p.tel)doc.text('Tél : '+CUR.p.tel,14,70);if(CUR.p.adresse)doc.text('Adresse : '+CUR.p.adresse,14,78);
+    doc.text('Membres : '+CUR.membres.length,14,86);doc.text('Solde : '+fmt(t.s),14,94);doc.text('Zone : UEMOA · XOF (FCFA)',14,102);
+  }
+  doc.save('assocpro-'+type+'-'+new Date().toISOString().split('T')[0]+'.pdf');showT('PDF téléchargé ✓','success');
+}
+
+// =========================================================
+// INIT
+// =========================================================
+countAssos();
+</script>
+</body>
+</html>
